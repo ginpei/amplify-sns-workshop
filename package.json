@@ -17,13 +17,13 @@
     "web-vitals": "^1.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint:type": "tsc",
     "lint:js": "eslint .",
-    "lint": "npm run lint:type && npm run lint:js"
+    "lint:type": "tsc",
+    "lint": "npm run lint:type && npm run lint:js",
+    "start": "react-scripts start",
+    "test": "react-scripts test"
   },
   "eslintConfig": {
     "extends": [
