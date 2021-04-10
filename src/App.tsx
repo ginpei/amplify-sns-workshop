@@ -1,25 +1,48 @@
-import "./App.css";
-import logo from "./logo.svg";
+import { AuthState, onAuthUIStateChange } from "@aws-amplify/ui-components";
+import {
+  AmplifyAuthenticator,
+  AmplifySignOut,
+  AmplifySignUp,
+} from "@aws-amplify/ui-react";
+import Amplify from "aws-amplify";
+import React from "react";
+import awsConfig from "./aws-exports";
 
-function App(): JSX.Element {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+// TODO find actual type
+interface UnknownAwsUser {
+  username: string;
 }
+
+Amplify.configure(awsConfig);
+
+const App: React.FC = () => {
+  const [authState, setAuthState] = React.useState<AuthState | null>(null);
+  const [user, setUser] = React.useState<UnknownAwsUser | null>(null);
+
+  React.useEffect(() => {
+    return onAuthUIStateChange((nextAuthState, authData) => {
+      setAuthState(nextAuthState);
+      setUser(authData as any);
+    });
+  }, []);
+
+  return authState === AuthState.SignedIn && user ? (
+    <div className="App">
+      <div>Hello, {user.username}</div>
+      <AmplifySignOut />
+    </div>
+  ) : (
+    <AmplifyAuthenticator>
+      <AmplifySignUp
+        slot="sign-up"
+        formFields={[
+          { type: "username" },
+          { type: "password" },
+          { type: "email" },
+        ]}
+      />
+    </AmplifyAuthenticator>
+  );
+};
 
 export default App;
