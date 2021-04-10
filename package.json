@@ -20,7 +20,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint:type": "tsc",
+    "lint:js": "eslint .",
+    "lint": "npm run lint:type && npm run lint:js"
   },
   "eslintConfig": {
     "extends": [
@@ -41,6 +44,13 @@
     ]
   },
   "devDependencies": {
-    "git-cz": "^4.7.6"
+    "@ginpei/eslintrc": "^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.21.0",
+    "eslint": "^7.24.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "git-cz": "^4.7.6",
+    "prettier": "^2.2.1"
   }
 }
