@@ -1,8 +1,6 @@
-import { API, graphqlOperation } from "aws-amplify";
 import React, { useEffect, useReducer, useState } from "react";
 import PostList from "../components/PostList";
-import { fetchAllPosts } from "../data/posts";
-import { onCreatePost } from "../graphql/subscriptions";
+import { fetchAllPosts, subscribeCreatePost } from "../data/posts";
 import Sidebar from "./Sidebar";
 
 const SUBSCRIPTION = "SUBSCRIPTION";
@@ -43,14 +41,11 @@ export default function AllPosts() {
   useEffect(() => {
     getPosts(INITIAL_QUERY);
 
-    const subscription = API.graphql(graphqlOperation(onCreatePost)).subscribe({
-      next: (msg) => {
-        console.log("allposts subscription fired");
-        const post = msg.value.data.onCreatePost;
-        dispatch({ type: SUBSCRIPTION, post });
-      },
+    return subscribeCreatePost((msg) => {
+      console.log("allposts subscription fired");
+      const post = msg.value.data.onCreatePost;
+      dispatch({ type: SUBSCRIPTION, post });
     });
-    return () => subscription.unsubscribe();
   }, []);
 
   return (

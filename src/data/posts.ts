@@ -2,6 +2,7 @@ import { GraphQLResult } from "@aws-amplify/api";
 import { API, graphqlOperation } from "aws-amplify";
 import { Observable } from "zen-observable-ts";
 import { listPostsSortedByTimestamp } from "../graphql/queries";
+import { onCreatePost } from "../graphql/subscriptions";
 
 export function fetchAllPosts(
   nextToken: unknown
@@ -16,4 +17,11 @@ export function fetchAllPosts(
       nextToken,
     })
   );
+}
+
+export function subscribeCreatePost(next: (msg: unknown) => void): () => void {
+  const subscription = API.graphql(graphqlOperation(onCreatePost)).subscribe({
+    next,
+  });
+  return () => subscription.unsubscribe();
 }
