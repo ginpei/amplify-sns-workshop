@@ -1,7 +1,10 @@
 import { GraphQLResult } from "@aws-amplify/api";
 import { API, graphqlOperation } from "aws-amplify";
 import { Observable } from "zen-observable-ts";
-import { listPostsSortedByTimestamp } from "../graphql/queries";
+import {
+  listPostsBySpecificOwner,
+  listPostsSortedByTimestamp,
+} from "../graphql/queries";
 import { onCreatePost } from "../graphql/subscriptions";
 
 export function fetchAllPosts(
@@ -14,6 +17,22 @@ export function fetchAllPosts(
       type: "post",
       sortDirection: "DESC",
       limit: 20, // default = 10
+      nextToken,
+    })
+  );
+}
+
+export function fetchUserPosts(
+  userId: string,
+  nextToken: unknown
+):
+  | Promise<GraphQLResult<Record<string, unknown>>>
+  | Observable<Record<string, unknown>> {
+  return API.graphql(
+    graphqlOperation(listPostsBySpecificOwner, {
+      owner: userId,
+      sortDirection: "DESC",
+      limit: 20,
       nextToken,
     })
   );

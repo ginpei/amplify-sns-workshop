@@ -2,7 +2,7 @@ import { API, graphqlOperation } from "aws-amplify";
 import React, { useEffect, useReducer, useState } from "react";
 import { useParams } from "react-router";
 import PostList from "../components/PostList";
-import { listPostsBySpecificOwner } from "../graphql/queries";
+import { fetchUserPosts } from "../data/posts";
 import { onCreatePost } from "../graphql/subscriptions";
 import Sidebar from "./Sidebar";
 
@@ -31,14 +31,7 @@ export default function PostsBySpecifiedUser() {
   const [isLoading, setIsLoading] = useState(true);
 
   const getPosts = async (type, nextToken2 = null) => {
-    const res = await API.graphql(
-      graphqlOperation(listPostsBySpecificOwner, {
-        owner: userId,
-        sortDirection: "DESC",
-        limit: 20,
-        nextToken: nextToken2,
-      })
-    );
+    const res = await fetchUserPosts(userId, nextToken2);
     console.log(res);
     dispatch({ type, posts: res.data.listPostsBySpecificOwner.items });
     setNextToken(res.data.listPostsBySpecificOwner.nextToken);
