@@ -1,9 +1,7 @@
-import { API, graphqlOperation } from "aws-amplify";
 import React, { useEffect, useReducer, useState } from "react";
 import { useParams } from "react-router";
 import PostList from "../components/PostList";
-import { fetchUserPosts } from "../data/posts";
-import { onCreatePost } from "../graphql/subscriptions";
+import { fetchUserPosts, subscribeCreatePost } from "../data/posts";
 import Sidebar from "./Sidebar";
 
 const SUBSCRIPTION = "SUBSCRIPTION";
@@ -46,14 +44,11 @@ export default function PostsBySpecifiedUser() {
   useEffect(() => {
     getPosts(INITIAL_QUERY);
 
-    const subscription = API.graphql(graphqlOperation(onCreatePost)).subscribe({
-      next: (msg) => {
-        const post = msg.value.data.onCreatePost;
-        if (post.owner !== userId) return;
-        dispatch({ type: SUBSCRIPTION, post });
-      },
+    return subscribeCreatePost((msg) => {
+      const post = msg.value.data.onCreatePost;
+      if (post.owner !== userId) return;
+      dispatch({ type: SUBSCRIPTION, post });
     });
-    return () => subscription.unsubscribe();
   }, []);
 
   return (
