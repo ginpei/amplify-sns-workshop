@@ -60,7 +60,7 @@ export default function PostList({
       ) : (
         <List disablePadding>
           <ListItem alignItems="flex-start" className={classes.listHeader}>
-            <Typography variant="h5" fontWeight="fontWeightBold" maxWidth>
+            <Typography variant="h5" fontWeight="fontWeightBold">
               {listHeaderTitle}
               {listHeaderTitleButton && listHeaderTitleButton}
             </Typography>
