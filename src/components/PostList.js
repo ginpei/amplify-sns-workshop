@@ -41,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
   clickable: {
     cursor: "pointer",
   },
+  content: {
+    whiteSpace: "pre-wrap",
+  },
 }));
 
 export default function PostList({
@@ -142,7 +145,11 @@ function PostItem({ post }) {
             </Typography>
           </React.Fragment>
         }
-        secondary={<Typography color="textPrimary">{post.content}</Typography>}
+        secondary={
+          <Typography color="textPrimary" className={classes.content}>
+            {post.content}
+          </Typography>
+        }
       />
     </ListItem>
   );
