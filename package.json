@@ -12,6 +12,7 @@
     "test": "react-scripts test"
   },
   "dependencies": {
+    "@aws-amplify/api": "^3.2.29",
     "@aws-amplify/ui-components": "^1.1.1",
     "@aws-amplify/ui-react": "^0.2.34",
     "@material-ui/core": "^4.11.2",
@@ -32,7 +33,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "typescript": "^4.2.4",
-    "web-vitals": "^1.1.1"
+    "web-vitals": "^1.1.1",
+    "zen-observable-ts": "^1.0.0"
   },
   "devDependencies": {
     "@ginpei/eslintrc": "^1.0.0",
