@@ -66,7 +66,7 @@ export default function PostList({
             </Typography>
           </ListItem>
           {posts.map((post) => (
-            <span>
+            <span key={post.id}>
               <PostItem post={post} />
               <Divider component="li" />
             </span>
