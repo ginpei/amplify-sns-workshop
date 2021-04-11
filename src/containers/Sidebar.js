@@ -9,10 +9,10 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Person as PersonIcon, Public as PublicIcon } from "@material-ui/icons";
-import { API, Auth, graphqlOperation } from "aws-amplify";
+import { Auth } from "aws-amplify";
 import React from "react";
 import { useHistory } from "react-router";
-import { createPost } from "../graphql/mutations";
+import { createPost } from "../data/posts";
 
 const drawerWidth = 340;
 const MAX_POST_CONTENT_LENGTH = 140;
@@ -56,16 +56,7 @@ export default function Sidebar({ activeListItem }) {
   };
 
   const onPost = async () => {
-    const res = await API.graphql(
-      graphqlOperation(createPost, {
-        input: {
-          type: "post",
-          content: value,
-          timestamp: Math.floor(Date.now() / 1000),
-        },
-      })
-    );
-
+    const res = await createPost({ content: value });
     console.log(res);
     setValue("");
   };

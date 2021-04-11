@@ -1,11 +1,24 @@
 import { GraphQLResult } from "@aws-amplify/api";
 import { API, graphqlOperation } from "aws-amplify";
 import { Observable } from "zen-observable-ts";
+import * as mutations from "../graphql/mutations";
 import {
   listPostsBySpecificOwner,
   listPostsSortedByTimestamp,
 } from "../graphql/queries";
 import { onCreatePost } from "../graphql/subscriptions";
+
+export function createPost(post: { content: string }) {
+  return API.graphql(
+    graphqlOperation(mutations.createPost, {
+      input: {
+        type: "post",
+        content: post.content,
+        timestamp: Math.floor(Date.now() / 1000),
+      },
+    })
+  );
+}
 
 export function fetchAllPosts(
   nextToken: unknown
