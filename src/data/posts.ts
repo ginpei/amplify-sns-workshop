@@ -6,7 +6,7 @@ import {
   listPostsBySpecificOwner,
   listPostsSortedByTimestamp,
 } from "../graphql/queries";
-import { onCreatePost } from "../graphql/subscriptions";
+import * as subscriptions from "../graphql/subscriptions";
 
 export function createPost(post: { content: string }) {
   return API.graphql(
@@ -51,8 +51,10 @@ export function fetchUserPosts(
   );
 }
 
-export function subscribeCreatePost(next: (msg: unknown) => void): () => void {
-  const subscription = API.graphql(graphqlOperation(onCreatePost)).subscribe({
+export function onCreatePost(next: (msg: unknown) => void): () => void {
+  const subscription = API.graphql(
+    graphqlOperation(subscriptions.onCreatePost)
+  ).subscribe({
     next,
   });
   return () => subscription.unsubscribe();

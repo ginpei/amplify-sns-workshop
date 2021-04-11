@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { useParams } from "react-router";
 import PostList from "../components/PostList";
-import { fetchUserPosts, subscribeCreatePost } from "../data/posts";
+import { fetchUserPosts, onCreatePost } from "../data/posts";
 import Sidebar from "./Sidebar";
 
 const SUBSCRIPTION = "SUBSCRIPTION";
@@ -44,7 +44,7 @@ export default function PostsBySpecifiedUser() {
   useEffect(() => {
     getPosts(INITIAL_QUERY);
 
-    return subscribeCreatePost((msg) => {
+    return onCreatePost((msg) => {
       const post = msg.value.data.onCreatePost;
       if (post.owner !== userId) return;
       dispatch({ type: SUBSCRIPTION, post });

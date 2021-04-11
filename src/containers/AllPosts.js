@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from "react";
 import PostList from "../components/PostList";
-import { fetchAllPosts, subscribeCreatePost } from "../data/posts";
+import { fetchAllPosts, onCreatePost } from "../data/posts";
 import Sidebar from "./Sidebar";
 
 const SUBSCRIPTION = "SUBSCRIPTION";
@@ -41,7 +41,7 @@ export default function AllPosts() {
   useEffect(() => {
     getPosts(INITIAL_QUERY);
 
-    return subscribeCreatePost((msg) => {
+    return onCreatePost((msg) => {
       console.log("allposts subscription fired");
       const post = msg.value.data.onCreatePost;
       dispatch({ type: SUBSCRIPTION, post });
