@@ -8,7 +8,7 @@ import {
 } from "../graphql/queries";
 import * as subscriptions from "../graphql/subscriptions";
 
-export function createPost(post: { content: string }) {
+export function createPost(post: { content: string }): unknown {
   return API.graphql(
     graphqlOperation(mutations.createPost, {
       input: {
